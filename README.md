@@ -3,11 +3,10 @@ Automatic Documentary Video Generator
 
 Takes a folder with video footage and sequences a film using random time 
 slices from each video. You set the input folders and the start, mid, 
-and end time windows. The program does the rest. Each time you run this, 
-you will end up with a slightly different documentary movie from the same 
-set of footage. Videos are sequenced alphabetically. If you want to sequence 
-them by creation timestamp, then run the included phython script first to
-rename them.
+and end time window durations. The program does the rest. Each time you run 
+this, you will end up with a slightly different movie from the same set of 
+footage. Videos are sequenced alphabetically. If you want to sequence 
+them by creation timestamp, run the included python script first.
 
 Ingredients
 -----------
