@@ -1,14 +1,18 @@
 // Clip length at start of film
 var MIN_CLIP_LENGTH_SECONDS = 1.0;
 
+// Clip length at middle of film
+var MID_CLIP_LENGTH_SECONDS = 0.1;
+
 // Clip length at end of film
-var MAX_CLIP_LENGTH_SECONDS = 4.0; 
+var MAX_CLIP_LENGTH_SECONDS = 1.0;
 
 // Folders with video footage
 var INPUT_FOLDERS = ["Indexed Footage"];
 
 var oldJavascript = true;
 
+// ExtendScript lacks these functions
 if (oldJavascript) {
     Array.prototype.includes = function (obj) {
         var i = this.length;
@@ -121,7 +125,7 @@ function importAndTrim() {
     // Assuming import is synchronous and files are added to project
     var importedClips = project.rootItem.children;
     var importedClipsSorted = []
-    
+
     // Loop through ProjectItemCollection and add items to an array
     for (var i = 0; i < importedClips.numItems; i++) {
         importedClipsSorted.push(importedClips[i]);
@@ -145,16 +149,23 @@ function importAndTrim() {
     // Create a new sequence
     var sequence = project.createNewSequence("My Sequence", "id");
 
-    var clipLengthRange = linearRange(MIN_CLIP_LENGTH_SECONDS, MAX_CLIP_LENGTH_SECONDS, importedClipsSorted.length);
-    var index = importedClipsSorted.length - 1;
+    var halfLength = Math.floor(importedClipsSorted.length / 2);
+    var oddNumberOfClips = importedClipsSorted.length % 2 == 0;
+    var clipLengthRange = linearRange(MIN_CLIP_LENGTH_SECONDS, MID_CLIP_LENGTH_SECONDS, halfLength);
+    if (oddNumberOfClips) { // Odd number of clips
+        clipLengthRange.concat([MID_CLIP_LENGTH_SECONDS]);
+    }
+    var clipLengthRange = thRange.concat(linearRange(MID_CLIP_LENGTH_SECONDS, MAX_CLIP_LENGTH_SECONDS, halfLength));
 
     // Add clips to sequence and trim
+    var index = importedClipsSorted.length - 1;
     importedClipsSorted.forEach(function (clip) {
         // Vary over range of possible clip lengths
-        insertRandomlyTrimmedClip(sequence, clip, clipLengthRange[index])
+        insertRandomlyTrimmedClip(sequence, clip, clipLengthRange[index]);
         index--;
     });
 }
 
+// Main code
 
 importAndTrim();
