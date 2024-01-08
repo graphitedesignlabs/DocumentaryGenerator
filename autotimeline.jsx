@@ -155,7 +155,7 @@ function importAndTrim() {
     if (oddNumberOfClips) { // Odd number of clips
         clipLengthRange.concat([MID_CLIP_LENGTH_SECONDS]);
     }
-    var clipLengthRange = thRange.concat(linearRange(MID_CLIP_LENGTH_SECONDS, MAX_CLIP_LENGTH_SECONDS, halfLength));
+    clipLengthRange = clipLengthRange.concat(linearRange(MID_CLIP_LENGTH_SECONDS, MAX_CLIP_LENGTH_SECONDS, halfLength));
 
     // Add clips to sequence and trim
     var index = importedClipsSorted.length - 1;
