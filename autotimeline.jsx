@@ -151,17 +151,17 @@ function importAndTrim() {
 
     var halfLength = Math.floor(importedClipsSorted.length / 2);
     var oddNumberOfClips = importedClipsSorted.length % 2 == 0;
-    var clipLengthRange = linearRange(MIN_CLIP_LENGTH_SECONDS, MID_CLIP_LENGTH_SECONDS, halfLength);
+    var clipPacing = linearRange(MIN_CLIP_LENGTH_SECONDS, MID_CLIP_LENGTH_SECONDS, halfLength);
     if (oddNumberOfClips) { // Odd number of clips
-        clipLengthRange.concat([MID_CLIP_LENGTH_SECONDS]);
+        clipPacing.concat([MID_CLIP_LENGTH_SECONDS]);
     }
-    clipLengthRange = clipLengthRange.concat(linearRange(MID_CLIP_LENGTH_SECONDS, MAX_CLIP_LENGTH_SECONDS, halfLength));
+    clipPacing = clipPacing.concat(linearRange(MID_CLIP_LENGTH_SECONDS, MAX_CLIP_LENGTH_SECONDS, halfLength));
 
     // Add clips to sequence and trim
     var index = importedClipsSorted.length - 1;
     importedClipsSorted.forEach(function (clip) {
         // Vary over range of possible clip lengths
-        insertRandomlyTrimmedClip(sequence, clip, clipLengthRange[index]);
+        insertRandomlyTrimmedClip(sequence, clip, clipPacing[index]);
         index--;
     });
 }
